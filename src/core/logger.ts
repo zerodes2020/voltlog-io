@@ -33,7 +33,15 @@
  * ```
  */
 
-import { randomUUID } from "node:crypto";
+// Universal UUID generator — works in browsers and Node.js
+const randomUUID: () => string =
+  typeof globalThis.crypto?.randomUUID === "function"
+    ? () => globalThis.crypto.randomUUID()
+    : () =>
+        "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+          const r = (Math.random() * 16) | 0;
+          return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+        });
 import { resolveLevel, shouldIncludeStack, shouldLog } from "./levels.js";
 import { composeMiddleware, fanOutToTransports } from "./pipeline.js";
 import {

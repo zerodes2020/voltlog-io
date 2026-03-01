@@ -1,6 +1,6 @@
 {
   "name": "voltlog-io",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Structured logger for real-time infrastructure — lightweight, type-safe, OCPP-aware. Works standalone or with ocpp-ws-io.",
   "repository": {
     "type": "git",
@@ -9,11 +9,17 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "browser": "./dist/client.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "import": "./dist/client.mjs",
+      "require": "./dist/client.js"
     }
   },
   "scripts": {

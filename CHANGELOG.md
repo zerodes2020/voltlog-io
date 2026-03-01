@@ -1,5 +1,11 @@
 # voltlog-io
 
+## 1.0.4
+
+### Patch Changes
+
+- client side import added client entry point for browser-safe use
+
 ## 1.0.3
 
 ### Patch Changes
