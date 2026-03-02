@@ -1,5 +1,11 @@
 # voltlog-io
 
+## 1.0.5
+
+### Patch Changes
+
+- fix: `voltlog-io/client` browser entry no longer imports Node.js built-ins (`fileURLToPath` from `"url"`, `createRequire` from `"module"`). Split tsup config into two targets — `index` keeps `shims: true` / `target: "node18"`, while `client` uses `platform: "browser"` and `shims: false` to prevent tsup's ESM shim chunk from being emitted into the browser bundle.
+
 ## 1.0.4
 
 ### Patch Changes
